@@ -13,10 +13,11 @@ const GameBoard = () => {
   const getBoard = () => board;
 
   const markBox = (mark,row,column) => {
-    console.log(board[row][column] = mark)
+    board[row][column] = mark;
+    console.log(board)
   }
 
-  return {getBoard}
+  return {getBoard, markBox}
   
 };
 
@@ -27,6 +28,8 @@ const GameController = (player1 , player2) => {
   player1 = 'player one';
   player2 = 'player two';
 
+  let board = GameBoard()
+
   const players = [{
     player: player1,
     mark: 'x'
@@ -35,15 +38,24 @@ const GameController = (player1 , player2) => {
     mark: 'o'
   }]
 
-  let activePlayer = players[0]
+  let activePlayer = players[0];
 
   const switchPlayer = () => {
-    activePlayer = players[0] ? players[1] : players[0] 
+   activePlayer =
+   activePlayer == players[0] ? activePlayer = players[1] : activePlayer = players[0]
   }
 
-  const playRound = () => {
-    console.log(`it's ${activePlayer} turn`)
+  const playRound = (row,column) => {
+    board.markBox(activePlayer.mark,row,column);
+    switchPlayer();
+    console.log(`it's ${activePlayer.player} turn`);
   }
 
+  console.log(`it's ${activePlayer.player} turn`);
+
+  return {playRound}
 }
+
+let game = GameController();
+console.log(game);
 
