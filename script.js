@@ -75,6 +75,9 @@ const GameController = (player1 , player2) => {
   return {playRound} 
 }
 
+let gameBoard = GameBoard()
+console.log(gameBoard.getBoard())
+
 let game = GameController();
 console.log(game);
 
