@@ -1,28 +1,21 @@
 const GameBoard = () => {
   const board = [];
-  const rows = 3;
-  const columns = 3;
+  const box = 8;
 
-  for (let r = 0; r < rows; r++) {
-    board[r] = [];
-    for (let c = 0; c < columns; c++) {
-     board[r].push('')
-    }
+  for (let i = 0; i < box; i++) {
+    board[i] = '';
   }
 
   const getBoard = () => board;
 
-  const markBox = (mark,row,column) => {
-    board[row][column] = mark;
+  const markBox = (mark,index) => { 
+    board[index] = mark;
     console.log(board)
   }
 
   return {getBoard, markBox}
   
 };
-
-let sample = GameBoard()
-console.log(sample.getBoard())
 
 const GameController = (player1 , player2) => {
   player1 = 'player one';
@@ -32,10 +25,12 @@ const GameController = (player1 , player2) => {
 
   const players = [{
     player: player1,
-    mark: 'x'
+    mark: 'x',
+    points: 0
   },{
     player: player2,
-    mark: 'o'
+    mark: 'o',
+    points: 0
   }]
 
   let activePlayer = players[0];
@@ -45,15 +40,39 @@ const GameController = (player1 , player2) => {
    activePlayer == players[0] ? activePlayer = players[1] : activePlayer = players[0]
   }
 
-  const playRound = (row,column) => {
-    board.markBox(activePlayer.mark,row,column);
-    switchPlayer();
-    console.log(`it's ${activePlayer.player} turn`);
+  const playRound = (index) => {
+    if (board.getBoard()[index] == 'x' || board.getBoard()[index] == 'o' ) {
+      console.log('not allowed, choose another index');
+      return `it's still ${activePlayer.player} turn`;
+    } else {
+      board.markBox(activePlayer.mark,index);
+      checkWin(activePlayer.mark);
+      switchPlayer();
+      console.log(`it's ${activePlayer.player} turn`);
+    }
+  }
+
+  const checkWin = (player) => {
+
+    const horizontal = [0,3,6].map(i =>{return[i,i+1,i+2]});
+    const vertical = [0,1,2].map(i => {return[i,i+3,i+6]});
+    const diagonal = [[0,4,8],[2,4,6]];
+
+    let allWins = [].concat(horizontal).concat(vertical.concat(diagonal));
+
+    let check = allWins.some(indices => {
+       return board.getBoard()[indices[0]] == player && board.getBoard()[indices[1]] == player && board.getBoard()[indices[2]] == player;
+    });
+
+    if (check == true) {
+      console.log(`${activePlayer.player} has won`); 
+    }
+
   }
 
   console.log(`it's ${activePlayer.player} turn`);
 
-  return {playRound}
+  return {playRound} 
 }
 
 let game = GameController();
