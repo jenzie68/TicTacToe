@@ -75,6 +75,10 @@ const GameController = (player1 , player2) => {
   return {playRound} 
 }
 
+const ScreenController = () => {
+  
+}
+
 let gameBoard = GameBoard()
 console.log(gameBoard.getBoard())
 
