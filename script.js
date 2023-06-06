@@ -68,8 +68,12 @@ const GameController = (player1 , player2) => {
 
     if (check == true) {
       console.log(`${activePlayer.player} has won`); 
+      let div = document.createElement('div');
+      div.setAttribute('id','displat-win');
+      div.textContent = `${getActivePlayer().player} has won`;
+      let container = document.querySelector('.container');
+      container.appendChild(div)
     }
-
   }
 
   console.log(`it's ${activePlayer.player} turn`);
@@ -81,10 +85,16 @@ const ScreenController = () => {
   let board = GameBoard();
   let container = document.querySelector('.container');
 
-  const updateScreen = () => {
-    let player = game.getActivePlayer();
-    container.textContent = '';
+  const displayTurn = () => {
+    let div = document.createElement('div');
+      div.setAttribute('id','displat-turn');
+      div.textContent = `it's ${activePlayer.player} turn`;
+      let container = document.querySelector('.container');
+      container.appendChild(div)
+  }
 
+  const updateScreen = () => {
+    container.textContent = '';
 
     board.getBoard().forEach((box, index) => { 
       let btn = document.createElement('button');
@@ -92,6 +102,7 @@ const ScreenController = () => {
       btn.classList.add('box');
       container.appendChild(btn);
       btn.addEventListener('click', (e) => {
+        const player = game.getActivePlayer();
         const selectBox = e.target.dataset.box;
         btn.textContent = player.mark;
         game.playRound(selectBox);
@@ -100,6 +111,8 @@ const ScreenController = () => {
   }
 
   updateScreen();
+
+  return {displayTurn};
 }
 
 let gameBoard = GameBoard()
