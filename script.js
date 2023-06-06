@@ -1,6 +1,6 @@
 const GameBoard = () => {
   const board = [];
-  const box = 8;
+  const box = 9;
 
   for (let i = 0; i < box; i++) {
     board[i] = '';
@@ -34,6 +34,8 @@ const GameController = (player1 , player2) => {
   }]
 
   let activePlayer = players[0];
+
+  const getActivePlayer = () => activePlayer;
 
   const switchPlayer = () => {
    activePlayer =
@@ -72,11 +74,32 @@ const GameController = (player1 , player2) => {
 
   console.log(`it's ${activePlayer.player} turn`);
 
-  return {playRound} 
+  return {playRound, getActivePlayer, activePlayer} 
 }
 
 const ScreenController = () => {
-  
+  let board = GameBoard();
+  let container = document.querySelector('.container');
+
+  const updateScreen = () => {
+    let player = game.getActivePlayer();
+    container.textContent = '';
+
+
+    board.getBoard().forEach((box, index) => { 
+      let btn = document.createElement('button');
+      btn.dataset.box = index;
+      btn.classList.add('box');
+      container.appendChild(btn);
+      btn.addEventListener('click', (e) => {
+        const selectBox = e.target.dataset.box;
+        btn.textContent = player.mark;
+        game.playRound(selectBox);
+      })
+    });
+  }
+
+  updateScreen();
 }
 
 let gameBoard = GameBoard()
@@ -85,3 +108,4 @@ console.log(gameBoard.getBoard())
 let game = GameController();
 console.log(game);
 
+let display = ScreenController();
