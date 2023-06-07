@@ -67,18 +67,18 @@ const GameController = (player1 , player2) => {
     });
 
     if (check == true) {
-      console.log(`${activePlayer.player} has won`); 
-      let div = document.createElement('div');
-      div.setAttribute('id','displat-win');
-      div.textContent = `${getActivePlayer().player} has won`;
-      let container = document.querySelector('.container');
-      container.appendChild(div)
+      const btns = document.querySelectorAll('.box');
+      for(const btn of btns) {
+        btn.disabled = true;
+      }
+      const divTurn = document.querySelector('.display-win');
+      divTurn.textContent = `${game.getActivePlayer().player} has won`;
     }
   }
 
   console.log(`it's ${activePlayer.player} turn`);
 
-  return {playRound, getActivePlayer, activePlayer} 
+  return {playRound, getActivePlayer, activePlayer, checkWin} 
 }
 
 const ScreenController = () => {
@@ -86,11 +86,8 @@ const ScreenController = () => {
   let container = document.querySelector('.container');
 
   const displayTurn = () => {
-    let div = document.createElement('div');
-      div.setAttribute('id','displat-turn');
-      div.textContent = `it's ${activePlayer.player} turn`;
-      let container = document.querySelector('.container');
-      container.appendChild(div)
+    const divTurn = document.querySelector('display-turn');
+    divTurn.textContent = `${game.getActivePlayer().player} has won`;
   }
 
   const updateScreen = () => {
@@ -119,6 +116,5 @@ let gameBoard = GameBoard()
 console.log(gameBoard.getBoard())
 
 let game = GameController();
-console.log(game);
 
-let display = ScreenController();
+ScreenController();
