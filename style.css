@@ -1,17 +1,16 @@
+@font-face {
+    font-family: 'Moirai';
+    src: url(Moirai_One/MoiraiOne-Regular.ttf);
+}
+
 .box {
     height: 150px;
     width: 150px;
     border-style: solid;
     border-color: aqua;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: xx-large;
+    font-family: 'Moirai',serif;
+    font-size: 90px;
     background: white;
-}
-
-.box:disabled {
-    color: red;
 }
 
 .container {
