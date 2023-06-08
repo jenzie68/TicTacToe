@@ -102,6 +102,7 @@ const ScreenController = () => {
         const player = game.getActivePlayer();
         const selectBox = e.target.dataset.box;
         btn.textContent = player.mark;
+        btn.disabled = true
         game.playRound(selectBox);
       })
     });
