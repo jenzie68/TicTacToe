@@ -1,6 +1,11 @@
 @font-face {
     font-family: 'Moirai';
-    src: url(Moirai_One/MoiraiOne-Regular.ttf);
+    src: url(Fonts/Moirai_One/MoiraiOne-Regular.ttf);
+}
+
+@font-face {
+    font-family: 'Orbit';
+    src: url(Fonts/Orbit/Orbit-Regular.ttf);
 }
 
 :root.light {
@@ -15,7 +20,10 @@
 }
 
 .display-win {
-    font-size: 25px;
+    font-size: 35px;
+    font-family: 'Orbit',sans-serif;
+    padding-top: 35px;
+    margin: 0 auto;
 }
 
 .box {
