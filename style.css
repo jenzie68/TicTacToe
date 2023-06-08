@@ -3,19 +3,49 @@
     src: url(Moirai_One/MoiraiOne-Regular.ttf);
 }
 
+:root.light {
+    --color-bg-box:white;
+    --color-bg-hover:rgb(234,250,248);
+    --border-color: aqua;
+    --color-bg:white;
+}
+
+:root.dark {
+    --color-bg-box:black;
+}
+
+.display-win {
+    font-size: 25px;
+}
+
 .box {
     height: 150px;
     width: 150px;
     border-style: solid;
     border-color: aqua;
     font-family: 'Moirai',serif;
-    font-size: 90px;
+    font-size: 100px;
+    font-weight: bolder;
     background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 30px;
+    justify-content: center;
 }
+
+.box:hover {
+    background-color: rgb(234,250,248);
+}
+
+body {
+    background-color:white;
+} 
 
 .container {
     display: grid;
     grid-template-columns: repeat(3,150px);
+    gap: 1px;
 }
 
 .flex {
@@ -26,7 +56,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
     padding: 10px;
 }
 
