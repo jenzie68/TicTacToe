@@ -14,7 +14,6 @@ const GameBoard = () => {
   }
 
   return {getBoard, markBox}
-  
 };
 
 const GameController = (player1 , player2) => {
@@ -101,6 +100,11 @@ const ScreenController = () => {
       btn.addEventListener('click', (e) => {
         const player = game.getActivePlayer();
         const selectBox = e.target.dataset.box;
+        if (player.mark == 'x') {
+          btn.style.color = 'red';
+        } else if(player.mark == 'o') {
+          btn.style.color = 'blue';
+        }
         btn.textContent = player.mark;
         btn.disabled = true
         game.playRound(selectBox);

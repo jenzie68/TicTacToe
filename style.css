@@ -1,18 +1,34 @@
 .box {
     height: 150px;
     width: 150px;
-    background-color: red;
     border-style: solid;
     border-color: aqua;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: xx-large;
+    background: white;
+}
+
+.box:disabled {
+    color: red;
 }
 
 .container {
     display: grid;
     grid-template-columns: repeat(3,150px);
+}
+
+.flex {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
 }
 
 #display-text {
