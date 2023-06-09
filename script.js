@@ -13,7 +13,7 @@ const GameBoard = () => {
     console.log(board)
   }
 
-  return {getBoard, markBox}
+  return {getBoard, markBox, board}
 };
 
 const GameController = (player1 , player2) => {
@@ -65,12 +65,28 @@ const GameController = (player1 , player2) => {
        return board.getBoard()[indices[0]] == player && board.getBoard()[indices[1]] == player && board.getBoard()[indices[2]] == player;
     });
 
-    if (check == true) {
+    const divTurn = document.querySelector('.display-win');
+    const btns = document.querySelectorAll('.box');
+    function allTrue() {
       const btns = document.querySelectorAll('.box');
+      for(const btn of btns) {
+        if (btn !== (btn.disabled = true)) {
+        return false}
+        else {
+          return true
+        }
+      }
+    }
+
+    if (check == true) {
       for(const btn of btns) {
         btn.disabled = true;
       }
-      const divTurn = document.querySelector('.display-win');
+      divTurn.textContent = `${game.getActivePlayer().player} has won`;
+    } else if(allTrue == true && check === false) {
+      for(const btn of btns) {
+        btn.disabled = true;
+      }
       divTurn.textContent = `${game.getActivePlayer().player} has won`;
     }
   }
