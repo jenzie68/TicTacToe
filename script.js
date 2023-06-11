@@ -10,7 +10,8 @@ const GameBoard = () => {
 
   const markBox = (mark,index) => { 
     board[index] = mark;
-    console.log(board)
+    console.log(board);
+    game.checkWin(game.activePlayer.mark,board);
   }
 
   return {getBoard, markBox, board}
@@ -47,13 +48,12 @@ const GameController = (player1 , player2) => {
       return `it's still ${activePlayer.player} turn`;
     } else {
       board.markBox(activePlayer.mark,index);
-      checkWin(activePlayer.mark);
       switchPlayer();
       console.log(`it's ${activePlayer.player} turn`);
     }
   }
 
-  const checkWin = (player) => {
+  const checkWin = (player, bord) => {
 
     const horizontal = [0,3,6].map(i =>{return[i,i+1,i+2]});
     const vertical = [0,1,2].map(i => {return[i,i+3,i+6]});
@@ -67,28 +67,21 @@ const GameController = (player1 , player2) => {
 
     const divTurn = document.querySelector('.display-win');
     const btns = document.querySelectorAll('.box');
-    function allTrue() {
-      const btns = document.querySelectorAll('.box');
-      for(const btn of btns) {
-        if (btn !== (btn.disabled = true)) {
-        return false}
-        else {
-          return true
-        }
-      }
-    }
 
     if (check == true) {
       for(const btn of btns) {
         btn.disabled = true;
       }
       divTurn.textContent = `${game.getActivePlayer().player} has won`;
-    } else if(allTrue == true && check === false) {
-      for(const btn of btns) {
-        btn.disabled = true;
-      }
-      divTurn.textContent = `${game.getActivePlayer().player} has won`;
-    }
+    } else if (
+      (bord.every((i => i == 'x' || i == 'o')) == true ) 
+      && (check == false)
+      ) {
+        for(const btn of btns) {
+          btn.disabled = true;
+        }
+        divTurn.textContent = `ITS A TIE`;
+      } 
   }
 
   console.log(`it's ${activePlayer.player} turn`);
@@ -122,7 +115,7 @@ const ScreenController = () => {
           btn.style.color = 'blue';
         }
         btn.textContent = player.mark;
-        btn.disabled = true
+        btn.disabled = true;
         game.playRound(selectBox);
       })
     });
@@ -133,8 +126,8 @@ const ScreenController = () => {
   return {displayTurn};
 }
 
-let gameBoard = GameBoard()
-console.log(gameBoard.getBoard())
+let gameBoard = GameBoard();
+console.log(gameBoard.getBoard());
 
 let game = GameController();
 
