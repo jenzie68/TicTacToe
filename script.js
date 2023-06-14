@@ -11,7 +11,7 @@ const GameBoard = () => {
   const markBox = (mark,index) => { 
     board[index] = mark;
     console.log(board);
-    game.checkWin(game.activePlayer.mark,board);
+    game.checkWin(board);
   }
 
   return {getBoard, markBox, board}
@@ -53,7 +53,8 @@ const GameController = (player1 , player2) => {
     }
   }
 
-  const checkWin = (player, bord) => {
+  const checkWin = (bord) => {
+    let player = activePlayer.mark
 
     const horizontal = [0,3,6].map(i =>{return[i,i+1,i+2]});
     const vertical = [0,1,2].map(i => {return[i,i+3,i+6]});
@@ -110,9 +111,9 @@ const ScreenController = () => {
         const player = game.getActivePlayer();
         const selectBox = e.target.dataset.box;
         if (player.mark == 'x') {
-          btn.style.color = 'red';
+          btn.setAttribute('id','x')
         } else if(player.mark == 'o') {
-          btn.style.color = 'blue';
+          btn.setAttribute('id','o');
         }
         btn.textContent = player.mark;
         btn.disabled = true;
@@ -125,6 +126,14 @@ const ScreenController = () => {
 
   return {displayTurn};
 }
+
+function changeTheme() {
+  const root = document.documentElement;
+  const newTheme = root.className === 'dark' ? 'light' : 'dark';
+  root.className = newTheme;
+}
+
+document.getElementById('switch').addEventListener('click',changeTheme);
 
 let gameBoard = GameBoard();
 console.log(gameBoard.getBoard());
