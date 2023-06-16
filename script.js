@@ -150,7 +150,7 @@ form.addEventListener('click',(e) => {
   game = GameController();
 });
 
-ScreenController();
+ScreenController()
 
 document.getElementById('switch').addEventListener('click',changeTheme);
 
