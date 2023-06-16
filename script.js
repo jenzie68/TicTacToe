@@ -148,6 +148,8 @@ form.addEventListener('click',(e) => {
   e.preventDefault();
   getPlayerNames();
   game = GameController();
+  const form = document.getElementById('names');
+  form.style.display = 'none';
 });
 
 ScreenController()
