@@ -17,11 +17,12 @@ const GameBoard = () => {
   return {getBoard, markBox, board}
 };
 
-const GameController = (player1 , player2) => {
-  player1 = 'player one';
-  player2 = 'player two';
+const GameController = (
+  player1 = getPlayerNames().playerOne, 
+  player2 = getPlayerNames().playerTwo
+  ) => {
 
-  let board = GameBoard()
+  let board = GameBoard();
 
   const players = [{
     player: player1,
@@ -73,7 +74,7 @@ const GameController = (player1 , player2) => {
       for(const btn of btns) {
         btn.disabled = true;
       }
-      divTurn.textContent = `${game.getActivePlayer().player} has won`;
+      divTurn.textContent = `${activePlayer.player} has won`;
     } else if (
       (bord.every((i => i == 'x' || i == 'o')) == true ) 
       && (check == false)
@@ -133,11 +134,28 @@ function changeTheme() {
   root.className = newTheme;
 }
 
+const getPlayerNames = () => {
+  let playerOne = document.getElementById('player-1').value;
+  let playerTwo = document.getElementById('player-2').value;
+
+  return {playerOne, playerTwo}
+}
+
+let game = '';
+
+const form = document.getElementById('submit-btn');
+form.addEventListener('click',(e) => {
+  e.preventDefault();
+  getPlayerNames();
+  game = GameController();
+});
+
+ScreenController();
+
 document.getElementById('switch').addEventListener('click',changeTheme);
 
 let gameBoard = GameBoard();
 console.log(gameBoard.getBoard());
 
-let game = GameController();
 
-ScreenController();
+
