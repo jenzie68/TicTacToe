@@ -28,7 +28,7 @@ const GameBoard = (() => {
   };
 })();
 
-const GameController = ( player1, player2 
+const GameController = (player1, player2 
   ) => {
   player1 = getPlayerNames().playerOne, 
   player2 = getPlayerNames().playerTwo
@@ -47,7 +47,7 @@ const GameController = ( player1, player2
 
   const getActivePlayer = () => activePlayer;
 
-  const switchPlayer = () => {
+  function switchPlayer() {
    activePlayer =
    activePlayer == players[0] ? activePlayer = players[1] : activePlayer = players[0]
   }
@@ -73,15 +73,6 @@ const GameController = ( player1, player2
               :false
       }
 
-    let resetBtn = document.querySelector('.replay');
-    resetBtn.addEventListener('click', () => {
-      GameBoard.resetBoard()
-      DisplayController.updateScreen();
-      divTurn.textContent = '';
-      resetBtn.style.display = 'none';
-    });
-
-    const divTurn = document.querySelector('.display-win');
     const btns = document.querySelectorAll('.box');
 
     if (check(player) == true) {
@@ -99,6 +90,13 @@ const GameController = ( player1, player2
         DisplayController.displayTie();
       } 
   }
+
+  let resetBtn = document.querySelector('.replay');
+  resetBtn.addEventListener('click', () => {
+    GameBoard.resetBoard()
+    DisplayController.updateScreen();
+    DisplayController.resetDisplay();
+  });
 
   console.log(`it's ${activePlayer.player} turn`);
 
@@ -147,6 +145,11 @@ const DisplayController = (() => {
     resetBtn.style.display = 'inline-block';
   }
 
+  function resetDisplay() {
+    divTurn.textContent = '';
+    resetBtn.style.display = 'none';
+  }
+
   function changeTheme() {
     const root = document.documentElement;
     const newTheme = root.className === 'dark' ? 'light' : 'dark';
@@ -158,6 +161,7 @@ const DisplayController = (() => {
 
   function updateScreen() {
     const container = document.querySelector('.container');
+    container.textContent = '';
 
     GameBoard.getBoard().forEach((box, index) => { 
       const btn = document.createElement('button');
@@ -186,7 +190,8 @@ const DisplayController = (() => {
   return {
     displayWin, 
     updateScreen, 
-    displayTie
+    displayTie,
+    resetDisplay
   };
 })();
 
