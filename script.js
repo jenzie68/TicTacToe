@@ -21,13 +21,17 @@ const GameBoard = (() => {
     }  
   }
 
-  return {getBoard, markBox, resetBoard}
+  return {
+    getBoard, 
+    markBox, 
+    resetBoard
+  };
 })();
 
-const GameController = (
+const GameController = ( player1, player2 
+  ) => {
   player1 = getPlayerNames().playerOne, 
   player2 = getPlayerNames().playerTwo
-  ) => {
 
   const players = [{
     player: player1,
@@ -49,17 +53,12 @@ const GameController = (
   }
 
   const playRound = (index) => {
-    if (GameBoard.getBoard()[index] == 'x' || GameBoard.getBoard()[index] == 'o' ) {
-      console.log('not allowed, choose another index');
-      return `it's still ${activePlayer.player} turn`;
-    } else {
       GameBoard.markBox(activePlayer.mark,index);
       switchPlayer();
       console.log(`it's ${activePlayer.player} turn`);
-    }
   }
 
-  const checkWin = (bord) => {
+  const checkWin = (board) => {
     let player = activePlayer.mark
 
     const horizontal = [0,3,6].map(i =>{return[i,i+1,i+2]});
@@ -72,48 +71,82 @@ const GameController = (
        return GameBoard.getBoard()[indices[0]] == player && GameBoard.getBoard()[indices[1]] == player && GameBoard.getBoard()[indices[2]] == player;
     });
 
+    let resetBtn = document.querySelector('.replay');
+    resetBtn.addEventListener('click', () => {
+      GameBoard.resetBoard()
+      DisplayController.updateScreen();
+      divTurn.textContent = '';
+      resetBtn.style.display = 'none';
+    });
+
     const divTurn = document.querySelector('.display-win');
     const btns = document.querySelectorAll('.box');
-    let replaybtn = document.querySelector('.replay');
-    replaybtn.addEventListener('click', () => {
-      GameBoard.resetBoard()
-      ScreenController();
-      divTurn.textContent = '';
-      replaybtn.style.display = 'none';
-    })
 
     if (check == true) {
       for(const btn of btns) {
         btn.disabled = true;
       }
-      divTurn.textContent = `${activePlayer.player} has won`;
-      replaybtn.style.display = 'inline-block';
+      DisplayController.displayWin(activePlayer.player);
     } else if (
-      (bord.every((i => i == 'x' || i == 'o')) == true ) 
+      (board.every((i => i == 'x' || i == 'o')) == true ) 
       && (check == false)
       ) {
         for(const btn of btns) {
           btn.disabled = true;
         }
-        divTurn.textContent = `ITS A TIE`;
-        replaybtn.style.display = 'inline-block';
+        DisplayController.displayTie();
       } 
   }
 
   console.log(`it's ${activePlayer.player} turn`);
 
-  return {playRound, getActivePlayer, activePlayer, checkWin} 
-}
+  return {
+    playRound, 
+    getActivePlayer, 
+    activePlayer, 
+    checkWin
+  } 
+};
 
-const ScreenController = () => {
-  let container = document.querySelector('.container');
+let game = '';
 
-  const displayTurn = () => {
-    const divTurn = document.querySelector('display-turn');
-    divTurn.textContent = `${game.getActivePlayer().player} has won`;
+const getPlayerNames = () => {
+
+  let playerOne = document.getElementById('player-1').value;
+  let playerTwo = document.getElementById('player-2').value;
+  
+  const form = document.getElementById('submit-btn');
+  form.addEventListener('click',(e) => {
+    e.preventDefault();
+    playerOne;
+    playerTwo;
+    game = GameController();
+    const form = document.getElementById('names');
+    form.style.display = 'none';
+  });
+
+ return {
+    playerOne, 
+    playerTwo
+  }  
+};
+
+const DisplayController = (() => {
+  const resetBtn = document.querySelector('.replay');
+  const divTurn = document.querySelector('.display-win');
+
+  function displayWin(player) {
+    divTurn.textContent = `${player} has won`;
+    resetBtn.style.display = 'inline-block';
   }
 
-  const updateScreen = () => {
+  function displayTie() {
+    divTurn.textContent = `ITS A TIE`;
+    resetBtn.style.display = 'inline-block';
+  }
+
+  function updateScreen() {
+    const container = document.querySelector('.container');
     container.textContent = '';
 
     GameBoard.getBoard().forEach((box, index) => { 
@@ -121,7 +154,9 @@ const ScreenController = () => {
       btn.dataset.box = index;
       btn.classList.add('box');
       container.appendChild(btn);
-      btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', addMark);
+
+      function addMark(e) {
         const player = game.getActivePlayer();
         const selectBox = e.target.dataset.box;
         if (player.mark == 'x') {
@@ -132,44 +167,30 @@ const ScreenController = () => {
         btn.textContent = player.mark;
         btn.disabled = true;
         game.playRound(selectBox);
-      })
+      }
     });
   }
 
+  function changeTheme() {
+    const root = document.documentElement;
+    const newTheme = root.className === 'dark' ? 'light' : 'dark';
+    root.className = newTheme;
+  }
+  
+  let switchSlider = document.getElementById('switch');
+  switchSlider.addEventListener('click',changeTheme);
+
   updateScreen();
 
-  return {displayTurn};
-}
+  return {
+          displayWin, 
+          updateScreen, 
+          displayTie
+        };
+})();
 
-function changeTheme() {
-  const root = document.documentElement;
-  const newTheme = root.className === 'dark' ? 'light' : 'dark';
-  root.className = newTheme;
-}
-
-const getPlayerNames = () => {
-  let playerOne = document.getElementById('player-1').value;
-  let playerTwo = document.getElementById('player-2').value;
-
-  return {playerOne, playerTwo}
-}
-
-let game = '';
-
-const form = document.getElementById('submit-btn');
-form.addEventListener('click',(e) => {
-  e.preventDefault();
-  getPlayerNames();
-  game = GameController();
-  const form = document.getElementById('names');
-  form.style.display = 'none';
-});
-
-ScreenController();
-
-document.getElementById('switch').addEventListener('click',changeTheme);
-
-console.log(GameBoard.getBoard());
+getPlayerNames();
+DisplayController;
 
 
 
