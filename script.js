@@ -183,7 +183,7 @@ const DisplayController = (() => {
         game.playRound(selectBox);
       }
     });
-  }
+  };
 
   updateScreen();
 
