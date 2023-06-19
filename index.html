@@ -9,6 +9,10 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <label class="switch">
+        <input type="checkbox" id="switch">
+        <span class="slider round"></span>
+      </label>
     <form action = '' id="names">
         <p>
             <label for="player-1">x</label>
@@ -21,11 +25,7 @@
         <button type="submit" id="submit-btn">submit</button>
     </form>
     <div class="flex">
-        <h1>TICTACTOE</h1>
-        <label class="switch">
-            <input type="checkbox" id="switch">
-            <span class="slider round"></span>
-          </label>
+        <p class="header">TIC-TAC-TOE</p>
         <div class="container"></div>
         <div class="display-win"></div>
         <button class="replay">REPLAY</button>

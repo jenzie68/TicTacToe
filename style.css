@@ -43,6 +43,31 @@ html {
   background: var(--color-bg);
 }
 
+.header {
+  font: 4rem 'Orbit',sans-serif;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  color: var(--color-display-win);
+  text-shadow: 0 0 10px #fff,
+  0 0 21px #fff,
+  0 0 42px #EDEADE,
+  0 0 82px #EDEADE;
+  -webkit-animation: header 1s ease-in-out infinite alternate;
+  -moz-animation: header 1s ease-in-out infinite alternate;
+  animation: header 1s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes header {
+  from {
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #FFFDD0, 0 0 40px #FFFDD0, 0 0 50px #FFFDD0, 0 0 60px #FFFDD0,;
+    opacity: 1;
+  }
+  to {
+    text-shadow: 0 0 20px #fff, 0 0 30px #F5F5DC, 0 0 40px #F5F5DC, 0 0 50px #F5F5DC, 0 0 60px #F5F5DC, 0 0 70px #F5F5DC, ;
+    opacity: 0.9;
+  }
+}
+
 .display-win {
     font-size: 35px;
     font-family: 'Orbit',sans-serif;
@@ -169,7 +194,7 @@ body {
     justify-content: center;
     gap: 15px;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -60%);
     padding: 10px;
