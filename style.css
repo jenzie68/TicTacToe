@@ -16,6 +16,10 @@
     --webkit-box-shadow:0px;
     --moz-box-shadow: 0px;
     --box-shadow: 0px;
+    --border-btn-clr: black;
+    --text-shadow-replaybtn: 0;
+    --replay-before-position: none;
+    --replay-opacity:0;
 }
 
 :root.dark {
@@ -28,6 +32,11 @@
     --box-shadow: 0px 0px 23px 0px rgba(45,255,196,0.82);
     --text-shadow-x: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #D53838,0 0 82px #D53838,0 0 92px #D53838,0 0 102px #D53838,0 0 151px #D53838;
     --text-shadow-o:0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #7393B3,0 0 82px #7393B3,0 0 92px #7393B3,0 0 102px #7393B3,0 0 151px #89CFF0;
+    --border-btn-clr: aqua;
+    --text-shadow-replaybtn: 0 0 0.5em hsl(0, 0%, 100%),
+                             0 0 0.7em var(--border-color);
+    --replay-before-position: absolute;
+    --replay-opacity:1;
 }
 
 html {
@@ -48,24 +57,57 @@ html {
 .replay {
   display: none;
   font-family: 'Orbit', sans-serif;
-  font-size: 20px;
-  width:200px;
-  height:45px;
+  font-size: 1.2rem;
+  font-weight: bolder;
+  color: var(--border-btn-clr);
+  border: var(--border-color) 2px solid;
+  padding: 0.25em 4em;
+  border-radius: 0.25em;
   margin: 0 auto;
   margin-top: 20px;
-  color: var(--color-display-win);
-  text-shadow:  0 0 10px #fff,
-                0 0 21px #fff,
-                0 0 42px #EDEADE,
-                0 0 82px #EDEADE;
+  text-shadow: var(--text-shadow-replaybtn);
+  box-shadow: inset 0 0 0.5em 0 white,
+              0 0 0.5em 0 white;
   background: var(--color-bg);
-  border-style: solid;
-  box-shadow: var(--box-shadow);
   transition: all 0.2s;
+  position: relative;
 }
 
-.replay:hover {
-  transform: scale(1.3);
+.replay::before {
+  pointer-events: none;
+  content: '';
+  position: var(--replay-before-position);
+  background: var(--border-color);
+  top: 130%;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  transform: perspective(1.5em) rotateX(40deg) scale(1,0.50);
+  filter: blur(1.2em);
+  opacity: .7;
+}
+
+.replay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: 0 0 2em 0.5em var(--border-color);
+  opacity: 0;
+  transition: opacity 100ms linear;
+}
+
+.replay:hover,
+.replay:focus {
+  background: var(--border-color);
+  color: var(--color-bg);
+  text-shadow: none;
+}
+
+.replay:hover::after {
+  opacity: var(--replay-opacity);
 }
 
 #names {
