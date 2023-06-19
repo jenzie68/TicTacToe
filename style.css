@@ -80,7 +80,6 @@ html {
 }
 
 .replay {
-  display: none;
   font-family: 'Orbit', sans-serif;
   font-size: 1.2rem;
   font-weight: bolder;
@@ -135,13 +134,34 @@ html {
   opacity: var(--replay-opacity);
 }
 
+input[id='player-1'] {
+  height: 2rem;
+}
+
 #names {
+  position: absolute;
+  background: #FFFDD0;
   display: inline-flex;
+  justify-content: center;
+  border-radius: 1.5rem;
   align-items: center;
   flex-direction: column;
-  width: 450px;
-  border-style: solid;
-  border-color: pink;
+  gap: 50px;
+  height: 25rem;
+  width: 30rem;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 1;
+}
+
+input[type='text'] #player-1:focus {
+  background: red;
+}
+
+input[type='text'] {
+  height: 50px;
 }
 
 .box {
